@@ -1,0 +1,22 @@
+﻿@typeparam TEditItem
+
+<MudText Typo="Typo.h5" GutterBottom="true">Edit @ItemType.Name.Singular</MudText>
+<MudPaper Class="pa-4">
+    <MudForm @ref="formRef"
+             @bind-IsValid="IsValid"
+             Spacing="4">
+        @FormContent(EditItem)
+        <div class="d-flex flex-row-reverse gap-4">
+            <MudButton Color="Color.Primary"
+                       Disabled="!IsValid"
+                       OnClick="SaveAsync"
+                       Variant="Variant.Filled">
+                Save
+            </MudButton>
+            <MudButton OnClick="CancelAsync"
+                       Variant="Variant.Text">
+                Cancel
+            </MudButton>
+        </div>
+    </MudForm>
+</MudPaper>

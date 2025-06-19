@@ -1,0 +1,25 @@
+﻿@using Tkd.Simsa.Domain.PersonManagement
+@attribute [Route($"{RouteConstants.PersonManagement}")]
+
+<DefaultDataManagementGrid TItem="Person"
+                           ItemTextExpression="@(item => item.Name.ToString())"
+                           ItemType="ItemTypes.Person">
+    <Columns>
+        <PropertyColumn T="Person"
+                        TProperty="string"
+                        Property="item => item.Name.FirstName"
+                        Title="First Name" />
+        <PropertyColumn T="Person"
+                        TProperty="string"
+                        Property="item => item.Name.LastName"
+                        Title="Last Name" />
+        <PropertyColumn T="Person"
+                        TProperty="DateOnly"
+                        Format="D"
+                        Property="item => item.DateOfBirth.Date"
+                        Title="Date of Birth" />
+        <PropertyColumn T="Person"
+                        TProperty="Gender"
+                        Property="item => item.Gender" />
+    </Columns>
+</DefaultDataManagementGrid>

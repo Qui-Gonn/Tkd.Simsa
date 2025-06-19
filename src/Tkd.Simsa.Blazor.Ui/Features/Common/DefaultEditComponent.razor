@@ -1,0 +1,18 @@
+﻿@typeparam TItem
+@typeparam TEditItem
+
+@if (IsError)
+{
+    @Error
+}
+else
+{
+    <DefaultDetailsForm TEditItem="TEditItem"
+                        EditItem="EditItem"
+                        OnSave="SaveAsync"
+                        ItemType="ItemType">
+        <FormContent>
+            @FormContent(context)
+        </FormContent>
+    </DefaultDetailsForm>
+}
