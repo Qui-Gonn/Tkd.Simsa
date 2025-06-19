@@ -1,0 +1,28 @@
+﻿@typeparam TItem
+
+<MudText Typo="Typo.h5" GutterBottom="true">Manage @ItemType.Name.Plural</MudText>
+<MudDataGrid T="TItem"
+             FixedHeader="true"
+             Height="calc(100vh - 13rem)"
+             Hover="true"
+             Items="Items">
+    <ToolBarContent>
+        <MudButton OnClick="Add"
+                   StartIcon="@Icons.Material.Filled.Add">
+            New
+        </MudButton>
+    </ToolBarContent>
+    <Columns>
+        @Columns
+        <TemplateColumn Title="Actions" HeaderStyle="width: 8rem">
+            <CellTemplate>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                               OnClick="() => Edit(context.Item)"
+                               Size="@Size.Small" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               OnClick="() => Delete(context.Item)"
+                               Size="@Size.Small" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>

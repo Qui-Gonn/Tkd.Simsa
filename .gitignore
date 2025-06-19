@@ -369,3 +369,5 @@ FodyWeavers.xsd
 *.db-wal
 
 license.json
+
+.idea/

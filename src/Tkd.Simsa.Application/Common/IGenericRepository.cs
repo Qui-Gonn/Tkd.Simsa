@@ -1,0 +1,18 @@
+﻿namespace Tkd.Simsa.Application.Common;
+
+public interface IGenericRepository<TModel>
+{
+    ValueTask<TModel> AddAsync(TModel model, CancellationToken cancellationToken = default);
+
+    ValueTask DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    ValueTask<IEnumerable<TModel>> GetAllAsync(CancellationToken cancellationToken = default);
+
+    ValueTask<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+    void SetTransactionMode(TransactionMode transactionMode);
+
+    ValueTask<TModel> UpdateAsync(TModel model, CancellationToken cancellationToken = default);
+}

@@ -1,0 +1,22 @@
+﻿@using Tkd.Simsa.Domain.EventManagement
+@attribute [Route($"{RouteConstants.EventManagement}")]
+
+<DefaultDataManagementGrid TItem="Event"
+                           ItemTextExpression="item => item.Name"
+                           ItemType="ItemTypes.Event">
+    <Columns>
+        <PropertyColumn T="Event"
+                        TProperty="string"
+                        Property="item => item.Name"
+                        Title="Name" />
+        <PropertyColumn T="Event"
+                        TProperty="DateOnly"
+                        Format="D"
+                        Property="item => item.StartDate"
+                        Title="Start Date" />
+        <PropertyColumn T="Event"
+                        TProperty="string"
+                        Property="item => item.Description"
+                        Title="Description" />
+    </Columns>
+</DefaultDataManagementGrid>

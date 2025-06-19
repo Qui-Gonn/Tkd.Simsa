@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.Blazor.WebApp", "Tkd.Simsa.Blazor.WebApp\Tkd.Simsa.Blazor.WebApp.csproj", "{8B15AC9C-A823-44DA-9E1E-0026F85A6864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.Blazor.WebApp.Client", "Tkd.Simsa.Blazor.WebApp.Client\Tkd.Simsa.Blazor.WebApp.Client.csproj", "{250065DF-F596-4D15-A399-272B8B6E9162}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{B6624980-068C-4218-BD72-DF4D47BD30A8}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
+		..\.gitignore = ..\.gitignore
+		stylecop.ruleset = stylecop.ruleset
+		Tkd.Simsa.sln.DotSettings = Tkd.Simsa.sln.DotSettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{93C2AA54-4DBB-4285-8040-B565E482EECF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{3DB0FBEB-02D0-4E26-BE80-2F653F19CC4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{37B64541-7840-4005-87C4-C9A5DB77D23A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.Persistence", "Tkd.Simsa.Persistence\Tkd.Simsa.Persistence.csproj", "{06D6FB43-99FB-4A0B-B08E-2D9B0FF31CA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.Domain", "Tkd.Simsa.Domain\Tkd.Simsa.Domain.csproj", "{07C09650-BE76-4273-931F-98D40A77DAA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.Application", "Tkd.Simsa.Application\Tkd.Simsa.Application.csproj", "{1E42C1FB-941E-418C-BE93-0FA536A4F79D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.DataGenerator", "Tkd.Simsa.DataGenerator\Tkd.Simsa.DataGenerator.csproj", "{CBBFAA46-D2D1-462C-BCA2-82457C56FD6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tkd.Simsa.Blazor.Ui", "Tkd.Simsa.Blazor.Ui\Tkd.Simsa.Blazor.Ui.csproj", "{AA87D6BC-1F30-4B8A-AA5B-BB218970643F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B15AC9C-A823-44DA-9E1E-0026F85A6864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B15AC9C-A823-44DA-9E1E-0026F85A6864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B15AC9C-A823-44DA-9E1E-0026F85A6864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B15AC9C-A823-44DA-9E1E-0026F85A6864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{250065DF-F596-4D15-A399-272B8B6E9162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{250065DF-F596-4D15-A399-272B8B6E9162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{250065DF-F596-4D15-A399-272B8B6E9162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{250065DF-F596-4D15-A399-272B8B6E9162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06D6FB43-99FB-4A0B-B08E-2D9B0FF31CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06D6FB43-99FB-4A0B-B08E-2D9B0FF31CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06D6FB43-99FB-4A0B-B08E-2D9B0FF31CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06D6FB43-99FB-4A0B-B08E-2D9B0FF31CA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07C09650-BE76-4273-931F-98D40A77DAA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07C09650-BE76-4273-931F-98D40A77DAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07C09650-BE76-4273-931F-98D40A77DAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07C09650-BE76-4273-931F-98D40A77DAA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E42C1FB-941E-418C-BE93-0FA536A4F79D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E42C1FB-941E-418C-BE93-0FA536A4F79D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E42C1FB-941E-418C-BE93-0FA536A4F79D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E42C1FB-941E-418C-BE93-0FA536A4F79D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBBFAA46-D2D1-462C-BCA2-82457C56FD6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBFAA46-D2D1-462C-BCA2-82457C56FD6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBFAA46-D2D1-462C-BCA2-82457C56FD6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBFAA46-D2D1-462C-BCA2-82457C56FD6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA87D6BC-1F30-4B8A-AA5B-BB218970643F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA87D6BC-1F30-4B8A-AA5B-BB218970643F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA87D6BC-1F30-4B8A-AA5B-BB218970643F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA87D6BC-1F30-4B8A-AA5B-BB218970643F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{06D6FB43-99FB-4A0B-B08E-2D9B0FF31CA9} = {37B64541-7840-4005-87C4-C9A5DB77D23A}
+		{07C09650-BE76-4273-931F-98D40A77DAA4} = {93C2AA54-4DBB-4285-8040-B565E482EECF}
+		{1E42C1FB-941E-418C-BE93-0FA536A4F79D} = {3DB0FBEB-02D0-4E26-BE80-2F653F19CC4F}
+		{CBBFAA46-D2D1-462C-BCA2-82457C56FD6B} = {37B64541-7840-4005-87C4-C9A5DB77D23A}
+	EndGlobalSection
+EndGlobal

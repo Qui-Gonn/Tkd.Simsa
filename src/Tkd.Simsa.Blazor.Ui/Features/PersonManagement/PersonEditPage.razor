@@ -1,0 +1,46 @@
+﻿@using Tkd.Simsa.Domain.PersonManagement
+@attribute [Route($"{RouteConstants.PersonManagement}/add")]
+@attribute [Route($"{RouteConstants.PersonManagement}/edit/{{ItemId:guid}}")]
+
+<DefaultEditComponent TItem="Person"
+                      TEditItem="PersonEditItem"
+                      ItemType="ItemTypes.Person"
+                      ItemId="ItemId">
+    <FormContent>
+        <MudTextField Label="Id"
+                      ReadOnly="true"
+                      Value="@context.Source.Id"
+                      Variant="ThemeProvider.Variant" />
+        <MudTextField Label="First Name"
+                      Required
+                      @bind-Value="@context.FirstName"
+                      Variant="ThemeProvider.Variant" />
+        <MudTextField Label="Last Name"
+                      Required
+                      @bind-Value="@context.LastName"
+                      Variant="ThemeProvider.Variant" />
+        <MudDatePicker Label="Date of Birth"
+                       Required
+                       @bind-Date="@context.DateOfBirth"
+                       Variant="ThemeProvider.Variant" />
+        <MudSelect Label="Gender"
+                   Required
+                   @bind-Value="@context.Gender"
+                   Variant="ThemeProvider.Variant">
+            @foreach (var gender in Enum.GetValues<Gender>())
+            {
+                <MudSelectItem Value="@((Gender?)gender)" />
+            }
+        </MudSelect>
+    </FormContent>
+</DefaultEditComponent>
+
+@code{
+
+    [Parameter]
+    public Guid? ItemId { get; set; }
+
+    [CascadingParameter]
+    public ThemeProvider ThemeProvider { get; set; } = default!;
+
+}
