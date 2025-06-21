@@ -6,9 +6,9 @@ public interface IGenericRepository<TModel>
 
     ValueTask DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
-    ValueTask<IEnumerable<TModel>> GetAllAsync(CancellationToken cancellationToken = default);
-
     ValueTask<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    ValueTask<IEnumerable<TModel>> GetItemsAsync(QueryParameters<TModel> queryParameters, CancellationToken cancellationToken = default);
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

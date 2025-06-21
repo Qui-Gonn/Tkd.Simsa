@@ -10,7 +10,7 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
     where TEntity : class, IHasId<Guid>
     where TModel : class, IHasId<Guid>
 {
-    public GenericRepository(SimsaDbContext dbContext, IMapper<TEntity, TModel> mapper)
+    public GenericRepository(DbContext dbContext, IMapper<TEntity, TModel> mapper)
     {
         this.DbContext = dbContext;
         this.Mapper = mapper;
@@ -18,7 +18,7 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
 
     protected DbSet<TEntity> Data => this.DbContext.Set<TEntity>();
 
-    protected SimsaDbContext DbContext { get; }
+    protected DbContext DbContext { get; }
 
     protected IMapper<TEntity, TModel> Mapper { get; }
 
@@ -49,14 +49,27 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
         }
     }
 
-    public async ValueTask<IEnumerable<TModel>> GetAllAsync(CancellationToken cancellationToken = default)
-        => (await this.Data
-                .AsNoTracking()
-                .ToListAsync(cancellationToken))
-            .Select(this.Mapper.ToModel);
-
     public async ValueTask<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         => this.Mapper.ToModel(await this.GetEntityByIdAsync(id, cancellationToken));
+
+    public async ValueTask<IEnumerable<TModel>> GetItemsAsync(QueryParameters<TModel> queryParameters, CancellationToken cancellationToken = default)
+    {
+        var allItems = (await this.Data
+                .AsNoTracking()
+                .ToListAsync(cancellationToken))
+            .ConvertAll(this.Mapper.ToModel);
+
+        IEnumerable<TModel> filteredItems = allItems;
+        foreach (var f in queryParameters.FilterDescriptors)
+        {
+            if (FilterHelper.TryGetFilterExpression(f, out var filterExpression))
+            {
+                filteredItems = filteredItems.Where(filterExpression.Compile());
+            }
+        }
+
+        return filteredItems;
+    }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => this.DbContext.SaveChangesAsync(cancellationToken);
