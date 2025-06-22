@@ -16,7 +16,7 @@ internal static class FilterHelper
     {
         filterExpression = null;
 
-        ParameterExpression parameterExp = Expression.Parameter(typeof(TModel), "x");
+        // ParameterExpression parameterExp = Expression.Parameter(typeof(TModel), "x");
         Expression predicate = Expression.Constant(true); //x=>True && x.IsActive=true/false
 
         if (!filterDescriptor.Property.TryGetMemberExpression(out var memberExp))
@@ -35,9 +35,10 @@ internal static class FilterHelper
             return false;
         }
 
-        predicate = Expression.AndAlso(predicate, binaryExp);
+        // predicate = Expression.AndAlso(predicate, binaryExp);
+        predicate = binaryExp;
 
-        filterExpression = Expression.Lambda<Func<TModel, bool>>(predicate, parameterExp);
+        filterExpression = Expression.Lambda<Func<TModel, bool>>(predicate, filterDescriptor.Property.Parameters);
         return true;
     }
 
@@ -50,13 +51,13 @@ internal static class FilterHelper
         expression = null;
         if (filterDescriptorOperator == FilterOperator.Contains)
         {
-            var methodInfo = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like));
+            var methodInfo = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), [typeof(DbFunctions), typeof(string), typeof(string)]);
             if (methodInfo is null)
             {
                 return false;
             }
 
-            expression = Expression.Call(Expression.Constant(EF.Functions), methodInfo, memberExpression, constantExpression);
+            expression = Expression.Call(methodInfo, Expression.Constant(EF.Functions), memberExpression, constantExpression);
             return true;
         }
 

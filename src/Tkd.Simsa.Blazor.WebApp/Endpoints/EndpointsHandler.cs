@@ -3,6 +3,7 @@ namespace Tkd.Simsa.Blazor.WebApp.Endpoints;
 using MediatR;
 
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 using Tkd.Simsa.Application.Common;
 using Tkd.Simsa.Domain.Common;
@@ -24,7 +25,7 @@ public class EndpointsHandler<TItem>
     }
 
     public async Task<Ok<IEnumerable<TItem>>> Get(IMediator mediator)
-        => TypedResults.Ok(await mediator.Send(new GetAllItemsQuery<TItem>()));
+        => TypedResults.Ok(await mediator.Send(new GetItemsQuery<TItem>(QueryParameters<TItem>.Empty)));
 
     public async Task<Results<Ok<TItem>, NotFound>> GetById(Guid id, IMediator mediator)
         => await mediator.Send(new GetItemByIdQuery<TItem>(id)) is { } itemById
@@ -39,4 +40,7 @@ public class EndpointsHandler<TItem>
 
     public async Task<Ok<TItem>> Put(Guid id, TItem itemToUpdate, IMediator mediator)
         => TypedResults.Ok(await mediator.Send(new UpdateItemCommand<TItem>(itemToUpdate)));
+
+    public async Task<Ok<IEnumerable<TItem>>> Query([FromBody] QueryParameters<TItem> queryParameters, IMediator mediator)
+        => TypedResults.Ok(await mediator.Send(new GetItemsQuery<TItem>(queryParameters)));
 }

@@ -7,5 +7,7 @@ public record Participant : IModelWithId<Guid>
 {
     public Guid Id { get; init; } = Guid.NewGuid();
 
-    public required Person PersonSnapshot { get; init; }
+    public required Guid PersonId { get; init; }
+
+    public required PersonInfo PersonInfo { get; init; }
 }

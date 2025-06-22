@@ -11,7 +11,7 @@ public sealed record QueryParameters<TItem>
 {
     public static readonly QueryParameters<TItem> Empty = new ();
 
-    public List<IFilterDescriptor<TItem>> FilterDescriptors { get; set; } = new ([]);
+    public List<IFilterDescriptor<TItem>> FilterDescriptors { get; init; } = [];
 }
 
 public record FilterDescriptor<TItem>(FilterOperator Operator, Expression<Func<TItem, object?>> Property, object? Value)
@@ -28,7 +28,7 @@ public interface IFilterDescriptor<TItem, TValue>
     public TValue? Value { get; init; }
 }
 
-public class FilterOperator(string OperatorName)
+public record FilterOperator(string OperatorName)
 {
     public static readonly FilterOperator Contains = new (nameof(Contains));
 

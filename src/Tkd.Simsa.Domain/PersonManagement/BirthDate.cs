@@ -6,6 +6,9 @@ public record BirthDate(DateOnly Date)
 
     public int Age => this.CalculateAge(DateTime.Today);
 
+    public static implicit operator DateOnly(BirthDate birthDate)
+        => birthDate.Date;
+
     public static BirthDate FromDateOnly(DateOnly birthDate)
         => new (birthDate);
 

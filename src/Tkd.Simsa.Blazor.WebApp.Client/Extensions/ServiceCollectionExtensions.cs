@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 using Tkd.Simsa.Application.Common;
 using Tkd.Simsa.Blazor.WebApp.Client.Features.Common;
+using Tkd.Simsa.Blazor.WebApp.Client.Features.Common.RequestHandler;
 using Tkd.Simsa.Domain.Common;
 using Tkd.Simsa.Domain.EventManagement;
 using Tkd.Simsa.Domain.PersonManagement;
@@ -30,7 +31,7 @@ public static class ServiceCollectionExtensions
     private static void AddGenericMediatRServices<TItem>(this IServiceCollection services)
         where TItem : IHasId<Guid>
     {
-        services.AddTransient<IRequestHandler<GetAllItemsQuery<TItem>, IEnumerable<TItem>>, GetAllItemsHandler<TItem>>();
+        services.AddTransient<IRequestHandler<GetItemsQuery<TItem>, IEnumerable<TItem>>, GetItemsHandler<TItem>>();
         services.AddTransient<IRequestHandler<GetItemByIdQuery<TItem>, TItem?>, GetItemByIdHandler<TItem>>();
         services.AddTransient<IRequestHandler<AddItemCommand<TItem>, TItem?>, AddItemHandler<TItem>>();
         services.AddTransient<IRequestHandler<UpdateItemCommand<TItem>, TItem?>, UpdateItemHandler<TItem>>();

@@ -66,5 +66,5 @@ public partial class DefaultDataManagementGrid<TItem>
         => this.ItemTextExpression.Compile().Invoke(item);
 
     private async Task ReloadDataAsync()
-        => this.Items = await this.Mediator.Send(new GetAllItemsQuery<TItem>());
+        => this.Items = await this.Mediator.Send(new GetItemsQuery<TItem>(QueryParameters.Empty<TItem>()));
 }

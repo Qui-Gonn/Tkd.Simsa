@@ -64,7 +64,7 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
         {
             if (FilterHelper.TryGetFilterExpression(f, out var filterExpression))
             {
-                filteredItems = filteredItems.Where(filterExpression.Compile());
+                filteredItems = filteredItems.AsQueryable().Where(filterExpression);
             }
         }
 

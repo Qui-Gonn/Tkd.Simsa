@@ -1,0 +1,39 @@
+﻿@using Tkd.Simsa.Domain.EventManagement
+@using Tkd.Simsa.Domain.PersonManagement
+<MudText>Participants</MudText>
+<MudDataGrid T="Participant"
+             FixedHeader="true"
+             Height="100%"
+             Hover="true"
+             Items="@Participants">
+    <ToolBarContent>
+        <MudAutocomplete T="Person"
+                         Label="Find Person"
+                         ProgressIndicatorColor="Color.Default"
+                         SearchFunc="FindPerson"
+                         ShowProgressIndicator="true"
+                         Variant="Variant.Text" />
+        @* <MudButton OnClick="Add" *@
+        @*            StartIcon="@Icons.Material.Filled.Add"> *@
+        @*     New *@
+        @* </MudButton> *@
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn T="Participant"
+                        TProperty="string"
+                        Property="item => item.PersonInfo.Name.FirstName"
+                        Title="First Name" />
+        <PropertyColumn T="Participant"
+                        TProperty="string"
+                        Property="item => item.PersonInfo.Name.LastName"
+                        Title="Last Name" />
+        <PropertyColumn T="Participant"
+                        TProperty="DateOnly"
+                        Format="D"
+                        Property="item => item.PersonInfo.DateOfBirth"
+                        Title="Date of Birth" />
+        <PropertyColumn T="Participant"
+                        TProperty="Gender"
+                        Property="item => item.PersonInfo.Gender" />
+    </Columns>
+</MudDataGrid>

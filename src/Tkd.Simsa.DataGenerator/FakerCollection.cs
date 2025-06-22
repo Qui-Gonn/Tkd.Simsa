@@ -9,20 +9,28 @@ internal class FakerCollection
 {
     public readonly Faker<Domain.EventManagement.Event> EventFaker;
 
+    public readonly Dictionary<IFakerTInternal, object> GeneratedItems = new ();
+
     public readonly Faker<Domain.EventManagement.Participant> ParticipantFaker;
 
     public readonly Faker<Domain.PersonManagement.Person> PersonFaker;
 
     public FakerCollection()
     {
-        this.EventFaker = this.DefineEventFaker();
         this.PersonFaker = this.DefinePersonFaker();
         this.ParticipantFaker = this.DefineParticipantFaker();
+        this.EventFaker = this.DefineEventFaker();
+    }
+
+    public List<T> GetItems<T>(Faker<T> faker)
+        where T : class
+    {
+        return (List<T>)this.GeneratedItems[faker];
     }
 
     private Faker<Event> DefineEventFaker()
     {
-        return new Faker<Domain.EventManagement.Event>()
+        var faker = new Faker<Domain.EventManagement.Event>()
             .StrictMode(true)
             .RuleFor(i => i.Id, Guid.NewGuid)
             .RuleFor(i => i.Description, f => f.Lorem.Text())
@@ -33,23 +41,36 @@ internal class FakerCollection
                 f => f.Date.BetweenDateOnly(
                     DateOnly.FromDateTime(DateTime.UtcNow - TimeSpan.FromDays(365)),
                     DateOnly.FromDateTime(DateTime.UtcNow + TimeSpan.FromDays(30))));
+
+        var generatedItems = faker.Generate(100);
+        this.GeneratedItems[faker] = generatedItems;
+        return faker;
     }
 
     private Faker<Participant> DefineParticipantFaker()
     {
-        return new Faker<Domain.EventManagement.Participant>()
-            .StrictMode(true)
+        var faker = new Faker<Domain.EventManagement.Participant>()
+            .StrictMode(false)
             .RuleFor(i => i.Id, Guid.NewGuid)
-            .RuleFor(i => i.PersonSnapshot, () => this.PersonFaker.Generate());
+            .RuleFor(i => i.PersonId, f => f.PickRandom(this.GetItems(this.PersonFaker)).Id)
+            .RuleFor(i => i.PersonInfo, (_, u) => this.GetItems(this.PersonFaker).Single(p => p.Id == u.PersonId));
+
+        var generatedItems = faker.Generate(100);
+        this.GeneratedItems[faker] = generatedItems;
+        return faker;
     }
 
     private Faker<Domain.PersonManagement.Person> DefinePersonFaker()
     {
-        return new Faker<Domain.PersonManagement.Person>()
+        var faker = new Faker<Domain.PersonManagement.Person>()
             .StrictMode(true)
             .RuleFor(i => i.Id, Guid.NewGuid)
             .RuleFor(i => i.Name, f => new PersonName(f.Person.FirstName, f.Person.LastName))
             .RuleFor(i => i.DateOfBirth, f => BirthDate.FromDateTime(f.Person.DateOfBirth))
             .RuleFor(i => i.Gender, f => f.PickRandom<Gender>());
+
+        var generatedItems = faker.Generate(100);
+        this.GeneratedItems[faker] = generatedItems;
+        return faker;
     }
 }
