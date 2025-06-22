@@ -4,7 +4,7 @@ using Bogus;
 
 using FluentAssertions;
 
-using Tkd.Simsa.Application.Common;
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Persistence.Test.Helper;
 
 public class GenericRepositoryTest
@@ -26,9 +26,9 @@ public class GenericRepositoryTest
         var expectedItems = originalItems.Where(item => item.Value.Contains(filterValue)).ToList();
         var queryParameters = new QueryParameters<TestModel>
         {
-            FilterDescriptors =
+            Filters =
             [
-                new FilterDescriptor<TestModel>(FilterOperator.Contains, i => i.Value, filterValue)
+                FilterDescriptor.Property<TestModel>(i => i.Value, filterValue, FilterOperators.Contains)
             ]
         };
         var repository = this.CreateRepository();
@@ -48,9 +48,9 @@ public class GenericRepositoryTest
         var expectedItems = originalItems.Where(item => item.Value == filterValue).ToList();
         var queryParameters = new QueryParameters<TestModel>
         {
-            FilterDescriptors =
+            Filters =
             [
-                new FilterDescriptor<TestModel>(FilterOperator.EqualTo, i => i.Value, filterValue)
+                FilterDescriptor.Property<TestModel>(i => i.Value, filterValue, FilterOperators.EqualTo)
             ]
         };
         var repository = this.CreateRepository();
@@ -84,9 +84,9 @@ public class GenericRepositoryTest
         var expectedItems = originalItems.Where(item => item.Value.StartsWith(filterValue)).ToList();
         var queryParameters = new QueryParameters<TestModel>
         {
-            FilterDescriptors =
+            Filters =
             [
-                new FilterDescriptor<TestModel>(FilterOperator.StartsWith, i => i.Value, filterValue)
+                FilterDescriptor.Property<TestModel>(i => i.Value, filterValue, FilterOperators.StartsWith)
             ]
         };
         var repository = this.CreateRepository();

@@ -1,6 +1,8 @@
 ﻿namespace Tkd.Simsa.Persistence.Mapper;
 
-internal interface IMapper<TEntity, TModel>
+using Tkd.Simsa.Persistence.Filtering;
+
+internal interface IMapper<TEntity, TModel> : IPropertyMapper<TEntity, TModel>
 {
     TEntity ToEntity(TModel model);
 

@@ -3,6 +3,7 @@ namespace Tkd.Simsa.Blazor.WebApp.Client.Features.Common;
 using Microsoft.Extensions.Options;
 
 using Tkd.Simsa.Application.Common;
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.Common;
 
 internal class GenericItemService<TItem> : IGenericItemService<TItem>

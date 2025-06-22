@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 using Tkd.Simsa.Application.Common;
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.Common;
 
 public class EndpointsHandler<TItem>

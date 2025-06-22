@@ -3,7 +3,9 @@
 using Microsoft.EntityFrameworkCore;
 
 using Tkd.Simsa.Application.Common;
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.Common;
+using Tkd.Simsa.Persistence.Extensions;
 using Tkd.Simsa.Persistence.Mapper;
 
 internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<TModel>
@@ -54,21 +56,13 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
 
     public async ValueTask<IEnumerable<TModel>> GetItemsAsync(QueryParameters<TModel> queryParameters, CancellationToken cancellationToken = default)
     {
-        var allItems = (await this.Data
+        var retrievedItems = (await this.Data
                 .AsNoTracking()
+                .ApplyFilters(queryParameters.Filters, this.Mapper)
                 .ToListAsync(cancellationToken))
             .ConvertAll(this.Mapper.ToModel);
 
-        IEnumerable<TModel> filteredItems = allItems;
-        foreach (var f in queryParameters.FilterDescriptors)
-        {
-            if (FilterHelper.TryGetFilterExpression(f, out var filterExpression))
-            {
-                filteredItems = filteredItems.AsQueryable().Where(filterExpression);
-            }
-        }
-
-        return filteredItems;
+        return retrievedItems;
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 
 using Tkd.Simsa.Application.Common;
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.EventManagement;
 using Tkd.Simsa.Domain.PersonManagement;
 
@@ -25,15 +26,9 @@ public partial class ParticipantsFormComponent : ComponentBase
             return [];
         }
 
-        return await this.Mediator.Send(
-            new GetItemsQuery<Person>(
-                new QueryParameters<Person>
-                {
-                    FilterDescriptors =
-                    [
-                        new FilterDescriptor<Person>(FilterOperator.Contains, i => i.Name, searchValue)
-                    ]
-                }),
-            cancellationToken);
+        var queryParameters = new QueryParameters<Person>();
+        var filterFirstname = FilterDescriptor.Property<Person>(i => i.Name.FirstName, searchValue, FilterOperators.Contains);
+        queryParameters.AddFilter(filterFirstname);
+        return await this.Mediator.Send(new GetItemsQuery<Person>(queryParameters), cancellationToken);
     }
 }

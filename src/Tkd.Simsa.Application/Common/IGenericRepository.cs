@@ -1,5 +1,7 @@
 ﻿namespace Tkd.Simsa.Application.Common;
 
+using Tkd.Simsa.Application.Common.Filtering;
+
 public interface IGenericRepository<TModel>
 {
     ValueTask<TModel> AddAsync(TModel model, CancellationToken cancellationToken = default);

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 using Tkd.Simsa.Application.Common;
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.Common;
 
 public partial class DefaultDataManagementGrid<TItem>

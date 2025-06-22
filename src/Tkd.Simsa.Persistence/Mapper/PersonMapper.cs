@@ -1,5 +1,7 @@
 ﻿namespace Tkd.Simsa.Persistence.Mapper;
 
+using System.Linq.Expressions;
+
 using Tkd.Simsa.Domain.PersonManagement;
 using Tkd.Simsa.Persistence.Entities;
 
@@ -7,6 +9,14 @@ internal class PersonMapper : IMapper<PersonEntity, Person>
 {
     public PersonEntity ToEntity(Person model)
         => this.UpdateEntity(new PersonEntity { Id = model.Id }, model);
+
+    public Expression<Func<PersonEntity, object>> ToEntityPropertyExpression(string propertyName)
+        => propertyName switch
+        {
+            nameof(Person.Name.FirstName) => i => i.FirstName,
+            nameof(Person.Name.LastName) => i => i.LastName,
+            _ => throw new NotSupportedException(propertyName)
+        };
 
     public Person ToModel(PersonEntity entity)
         => new ()

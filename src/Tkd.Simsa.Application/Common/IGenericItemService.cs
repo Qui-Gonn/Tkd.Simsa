@@ -1,5 +1,7 @@
 ﻿namespace Tkd.Simsa.Application.Common;
 
+using Tkd.Simsa.Application.Common.Filtering;
+
 public interface IGenericItemService<TItem>
 {
     ValueTask<TItem?> AddAsync(TItem item, CancellationToken cancellationToken = default);

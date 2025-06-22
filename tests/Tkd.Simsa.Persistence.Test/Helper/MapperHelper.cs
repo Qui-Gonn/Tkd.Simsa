@@ -24,6 +24,14 @@ internal static class MapperHelper
                          return testEntity;
                      });
 
+        mapperSubstitute.ToEntityPropertyExpression(Arg.Any<string>())
+            .Returns(x => x.Arg<string>() switch
+                {
+                    nameof(TestModel.Value) => i => i.Value,
+                    _ => throw new NotSupportedException(x.Arg<string>())
+                }
+            );
+
         return mapperSubstitute;
     }
 }
