@@ -2,13 +2,15 @@
 
 using System.Linq.Expressions;
 
-using Tkd.Simsa.Application.Extensions;
-
-public static class FilterDescriptor
+public abstract class FilterDescriptor<TModel>
 {
-    public static IFilterDescriptor<TItem> Property<TItem>(Expression<Func<TItem, object>> propertyExpression, object? value, FilterOperator filterOperator)
-        => new FilterDescriptor<TItem>(filterOperator, propertyExpression.GetPropertyName(), value);
-}
+    public static SimpleFilterDescriptorDescriptor<TModel> ForProperty(
+        Expression<Func<TModel, object>> propertyExpression,
+        object? value,
+        FilterOperator filterOperator) =>
+        new (propertyExpression, value, filterOperator);
 
-public record FilterDescriptor<TItem>(FilterOperator Operator, string PropertyName, object? Value)
-    : IFilterDescriptor<TItem>;
+    public abstract Expression<Func<TEntity, bool>> ToExpression<TEntity>(
+        IPropertyMapper<TEntity, TModel> propertyMapper,
+        IComparisonFunctions comparisonFunctions);
+}

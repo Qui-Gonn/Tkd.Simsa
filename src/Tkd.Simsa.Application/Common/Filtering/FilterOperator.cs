@@ -1,12 +1,23 @@
 ﻿namespace Tkd.Simsa.Application.Common.Filtering;
 
-public record FilterOperator(string OperatorName);
-
-public static class FilterOperators
+public enum FilterOperator
 {
-    public static readonly FilterOperator Contains = new (nameof(Contains));
+    Equals,
 
-    public static readonly FilterOperator EqualTo = new (nameof(EqualTo));
+    NotEqual,
 
-    public static readonly FilterOperator StartsWith = new (nameof(StartsWith));
+    StartsWith,
+
+    Contains,
+
+    GreaterThan,
+
+    LessThan
+}
+
+public enum LogicalOperator
+{
+    And,
+
+    Or
 }

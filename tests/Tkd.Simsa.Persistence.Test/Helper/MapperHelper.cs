@@ -6,7 +6,7 @@ using Tkd.Simsa.Persistence.Mapper;
 
 internal static class MapperHelper
 {
-    public static IMapper<TestEntity, TestModel> SubstituteForTestEntityAndTestModel()
+    public static IMapper<TestEntity, TestModel> SubstituteFor_TestEntity_And_TestModel()
     {
         var mapperSubstitute = Substitute.For<IMapper<TestEntity, TestModel>>();
 
@@ -27,6 +27,7 @@ internal static class MapperHelper
         mapperSubstitute.ToEntityPropertyExpression(Arg.Any<string>())
             .Returns(x => x.Arg<string>() switch
                 {
+                    nameof(TestModel.Id) => i => i.Id,
                     nameof(TestModel.Value) => i => i.Value,
                     _ => throw new NotSupportedException(x.Arg<string>())
                 }
