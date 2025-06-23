@@ -43,11 +43,49 @@ public class GenericRepositoryTest
         {
             Filters =
             [
-                new CompositeFilterDescriptorDescriptor<TestModel>(
-                    FilterDescriptor<TestModel>.ForProperty(i => i.Value, filterValue1, FilterOperator.Contains),
-                    FilterDescriptor<TestModel>.ForProperty(i => i.Id, filterValue2, FilterOperator.Equals),
-                    LogicalOperator.And)
+                Filter.And(
+                    Filter.For<TestModel>().Property(i => i.Value).Contains(filterValue1),
+                    Filter.For<TestModel>().Property(i => i.Id).EqualTo(filterValue2))
             ]
+        };
+        var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
+
+        retrievedItems.Should().NotBeNull();
+        retrievedItems.Count.Should().Be(expectedItems.Count);
+        retrievedItems.Should().BeEquivalentTo(expectedItems);
+    }
+
+    [Fact]
+    public async Task GetItems_WithContainsFilter_ShouldReturnOnlyMatchingItems()
+    {
+        var originalItems = this.dbHelper.GenerateFakeData<TestEntity>(TotalItemCount);
+        var randomItem = this.faker.PickRandom(originalItems);
+        var filterValue = randomItem.Value[Math.Min(2, randomItem.Value.Length)..Math.Min(4, randomItem.Value.Length)];
+        var expectedItems = this.dbHelper.CreateDbContext().TestEntities.Where(item => EF.Functions.Like(item.Value, $"%{filterValue}%")).ToList();
+        var repository = this.CreateRepository();
+
+        var queryParameters = new QueryParameters<TestModel>
+        {
+            Filters = [Filter.For<TestModel>().Property(i => i.Value).Contains(filterValue)]
+        };
+        var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
+
+        retrievedItems.Should().NotBeNull();
+        retrievedItems.Count.Should().Be(expectedItems.Count);
+        retrievedItems.Should().BeEquivalentTo(expectedItems);
+    }
+
+    [Fact]
+    public async Task GetItems_WithEqualsFilter_ShouldReturnOnlyMatchingItems()
+    {
+        var originalItems = this.dbHelper.GenerateFakeData<TestEntity>(TotalItemCount);
+        var filterValue = this.PickRandomItem(originalItems);
+        var expectedItems = this.dbHelper.CreateDbContext().TestEntities.Where(item => item.Value == filterValue).ToList();
+        var repository = this.CreateRepository();
+
+        var queryParameters = new QueryParameters<TestModel>
+        {
+            Filters = [Filter.For<TestModel>().Property(i => i.Value).EqualTo(filterValue)]
         };
         var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
 
@@ -73,50 +111,10 @@ public class GenericRepositoryTest
         {
             Filters =
             [
-                new CompositeFilterDescriptorDescriptor<TestModel>(
-                    FilterDescriptor<TestModel>.ForProperty(i => i.Value, filterValue1, FilterOperator.Contains),
-                    FilterDescriptor<TestModel>.ForProperty(i => i.Id, filterValue2, FilterOperator.Equals),
-                    LogicalOperator.Or)
+                Filter.Or(
+                    Filter.For<TestModel>().Property(i => i.Value).Contains(filterValue1),
+                    Filter.For<TestModel>().Property(i => i.Id).EqualTo(filterValue2))
             ]
-        };
-        var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
-
-        retrievedItems.Should().NotBeNull();
-        retrievedItems.Count.Should().Be(expectedItems.Count);
-        retrievedItems.Should().BeEquivalentTo(expectedItems);
-    }
-
-    [Fact]
-    public async Task GetItems_WithContainsFilter_ShouldReturnOnlyMatchingItems()
-    {
-        var originalItems = this.dbHelper.GenerateFakeData<TestEntity>(TotalItemCount);
-        var randomItem = this.faker.PickRandom(originalItems);
-        var filterValue = randomItem.Value[Math.Min(2, randomItem.Value.Length)..Math.Min(4, randomItem.Value.Length)];
-        var expectedItems = this.dbHelper.CreateDbContext().TestEntities.Where(item => EF.Functions.Like(item.Value, $"%{filterValue}%")).ToList();
-        var repository = this.CreateRepository();
-
-        var queryParameters = new QueryParameters<TestModel>
-        {
-            Filters = [FilterDescriptor<TestModel>.ForProperty(i => i.Value, filterValue, FilterOperator.Contains)]
-        };
-        var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
-
-        retrievedItems.Should().NotBeNull();
-        retrievedItems.Count.Should().Be(expectedItems.Count);
-        retrievedItems.Should().BeEquivalentTo(expectedItems);
-    }
-
-    [Fact]
-    public async Task GetItems_WithEqualsFilter_ShouldReturnOnlyMatchingItems()
-    {
-        var originalItems = this.dbHelper.GenerateFakeData<TestEntity>(TotalItemCount);
-        var filterValue = this.PickRandomItem(originalItems);
-        var expectedItems = this.dbHelper.CreateDbContext().TestEntities.Where(item => item.Value == filterValue).ToList();
-        var repository = this.CreateRepository();
-
-        var queryParameters = new QueryParameters<TestModel>
-        {
-            Filters = [FilterDescriptor<TestModel>.ForProperty(i => i.Value, filterValue, FilterOperator.Equals)]
         };
         var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
 
@@ -149,7 +147,7 @@ public class GenericRepositoryTest
 
         var queryParameters = new QueryParameters<TestModel>
         {
-            Filters = [FilterDescriptor<TestModel>.ForProperty(i => i.Value, filterValue, FilterOperator.StartsWith)]
+            Filters = [Filter.For<TestModel>().Property(i => i.Value).StartsWith(filterValue)]
         };
         var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
 

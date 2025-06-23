@@ -27,8 +27,9 @@ public partial class ParticipantsFormComponent : ComponentBase
         }
 
         var queryParameters = new QueryParameters<Person>();
-        var filterFirstname = FilterDescriptor<Person>.ForProperty(i => i.Name.FirstName, searchValue, FilterOperator.Contains);
-        queryParameters.AddFilter(filterFirstname);
+        var filterFirstname = Filter.For<Person>().Property(i => i.Name.FirstName).Contains(searchValue);
+        var filterLastname = Filter.For<Person>().Property(i => i.Name.LastName).Contains(searchValue);
+        queryParameters.AddFilter(Filter.Or(filterFirstname, filterLastname));
         return await this.Mediator.Send(new GetItemsQuery<Person>(queryParameters), cancellationToken);
     }
 }
