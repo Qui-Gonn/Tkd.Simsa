@@ -1,7 +1,7 @@
 ﻿namespace Tkd.Simsa.Persistence.Extensions;
 
 using Tkd.Simsa.Application.Common.Filtering;
-using Tkd.Simsa.Persistence.Mapper;
+using Tkd.Simsa.Persistence.Filtering;
 
 internal static class QueryableExtensions
 {
@@ -10,7 +10,7 @@ internal static class QueryableExtensions
         FilterDescriptors<TModel> filterDescriptors,
         IPropertyMapper<TEntity, TModel> propertyMapper)
     {
-        return filterDescriptors.BuildFilterExpression(propertyMapper) is { } filterExpression
+        return filterDescriptors.ToExpression(propertyMapper, ComparisonFunctions.Instance) is { } filterExpression
             ? queryable.Where(filterExpression)
             : queryable;
     }

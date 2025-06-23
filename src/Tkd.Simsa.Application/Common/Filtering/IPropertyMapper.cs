@@ -1,8 +1,8 @@
-﻿namespace Tkd.Simsa.Persistence.Mapper;
+﻿namespace Tkd.Simsa.Application.Common.Filtering;
 
 using System.Linq.Expressions;
 
-internal interface IPropertyMapper<TEntity, TModel>
+public interface IPropertyMapper<TEntity, TModel>
 {
     Expression<Func<TEntity, object>> ToEntityPropertyExpression(string propertyName);
 }
