@@ -26,10 +26,12 @@ public partial class ParticipantsFormComponent : ComponentBase
             return [];
         }
 
-        var queryParameters = new QueryParameters<Person>();
         var filterFirstname = Filter.For<Person>().Property(i => i.Name.FirstName).Contains(searchValue);
         var filterLastname = Filter.For<Person>().Property(i => i.Name.LastName).Contains(searchValue);
-        queryParameters.AddFilter(Filter.Or(filterFirstname, filterLastname));
+        var queryParameters = QueryParameters
+                              .Create<Person>()
+                              .WithFilter(Filter.Or(filterFirstname, filterLastname))
+                              .Build();
         return await this.Mediator.Send(new GetItemsQuery<Person>(queryParameters), cancellationToken);
     }
 }
