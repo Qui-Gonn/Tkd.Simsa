@@ -1,38 +1,36 @@
 ﻿namespace Tkd.Simsa.Persistence.Test.Helper;
 
-using NSubstitute;
+using System.Linq.Expressions;
 
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Persistence.Mapper;
 
 internal static class MapperHelper
 {
-    public static IMapper<TestEntity, TestModel> SubstituteFor_TestEntity_And_TestModel()
+    public static IMapper<TestEntity, TestModel> TestMapper { get; } = new TestMapperImplementation();
+
+    public static IPropertyMapper<TestEntity, TestModel> TestPropertyMapper => TestMapper.PropertyMapper;
+
+    private class TestMapperImplementation : IMapper<TestEntity, TestModel>, IPropertyMapper<TestEntity, TestModel>
     {
-        var mapperSubstitute = Substitute.For<IMapper<TestEntity, TestModel>>();
+        public IPropertyMapper<TestEntity, TestModel> PropertyMapper => this;
 
-        mapperSubstitute.ToEntity(Arg.Any<TestModel>())
-            .Returns(x => new TestEntity(x.Arg<TestModel>().Id, x.Arg<TestModel>().Value));
+        public TestEntity ToEntity(TestModel model) => new (model.Id, model.Value);
 
-        mapperSubstitute.ToModel(Arg.Any<TestEntity>())
-            .Returns(x => new TestModel(x.Arg<TestEntity>().Id, x.Arg<TestEntity>().Value));
+        public Expression<Func<TestEntity, object>> ToEntityPropertyExpression(string propertyName)
+            => propertyName switch
+            {
+                nameof(TestModel.Id) => entity => entity.Id,
+                nameof(TestModel.Value) => entity => entity.Value,
+                _ => throw new NotSupportedException(propertyName)
+            };
 
-        mapperSubstitute.UpdateEntity(Arg.Any<TestEntity>(), Arg.Any<TestModel>())
-            .Returns(x =>
-                     {
-                         var testEntity = x.Arg<TestEntity>();
-                         testEntity.Value = x.Arg<TestModel>().Value;
-                         return testEntity;
-                     });
+        public TestModel ToModel(TestEntity entity) => new (entity.Id, entity.Value);
 
-        mapperSubstitute.ToEntityPropertyExpression(Arg.Any<string>())
-            .Returns(x => x.Arg<string>() switch
-                {
-                    nameof(TestModel.Id) => i => i.Id,
-                    nameof(TestModel.Value) => i => i.Value,
-                    _ => throw new NotSupportedException(x.Arg<string>())
-                }
-            );
-
-        return mapperSubstitute;
+        public TestEntity UpdateEntity(TestEntity entity, TestModel model)
+        {
+            entity.Value = model.Value;
+            return entity;
+        }
     }
 }

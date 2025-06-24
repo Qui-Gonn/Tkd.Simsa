@@ -28,10 +28,9 @@ public partial class ParticipantsFormComponent : ComponentBase
 
         var filterFirstname = Filter.For<Person>().Property(i => i.Name.FirstName).Contains(searchValue);
         var filterLastname = Filter.For<Person>().Property(i => i.Name.LastName).Contains(searchValue);
-        var queryParameters = QueryParameters
-                              .Create<Person>()
-                              .WithFilter(Filter.Or(filterFirstname, filterLastname))
-                              .Build();
+        var queryParameters = QueryParameters.Create<Person>()
+                                             .WithFilter(Filter.Or(filterFirstname, filterLastname))
+                                             .Build();
         return await this.Mediator.Send(new GetItemsQuery<Person>(queryParameters), cancellationToken);
     }
 }

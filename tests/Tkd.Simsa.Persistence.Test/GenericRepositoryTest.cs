@@ -151,7 +151,7 @@ public class GenericRepositoryTest
     }
 
     private TestRepository CreateRepository()
-        => new (this.dbHelper.CreateDbContext(), MapperHelper.SubstituteFor_TestEntity_And_TestModel());
+        => new (this.dbHelper.CreateDbContext(), MapperHelper.TestMapper);
 
     private string PickRandomItem(List<TestEntity> originalItems)
     {

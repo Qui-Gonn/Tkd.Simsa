@@ -57,9 +57,9 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
     public async ValueTask<IEnumerable<TModel>> GetItemsAsync(QueryParameters<TModel> queryParameters, CancellationToken cancellationToken = default)
     {
         var retrievedItems = (await this.Data
-                .AsNoTracking()
-                .ApplyFilters(queryParameters.Filters, this.Mapper)
-                .ToListAsync(cancellationToken))
+                                        .AsNoTracking()
+                                        .ApplyFilters(queryParameters.Filters, this.Mapper.PropertyMapper)
+                                        .ToListAsync(cancellationToken))
             .ConvertAll(this.Mapper.ToModel);
 
         return retrievedItems;

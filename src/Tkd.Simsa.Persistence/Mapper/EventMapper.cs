@@ -3,21 +3,16 @@
 using System.Linq.Expressions;
 using System.Text.Json;
 
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.EventManagement;
 using Tkd.Simsa.Persistence.Entities;
 
 internal class EventMapper : IMapper<EventEntity, Event>
 {
+    public IPropertyMapper<EventEntity, Event> PropertyMapper { get; } = new EventPropertyMapper();
+
     public EventEntity ToEntity(Event model)
         => this.UpdateEntity(new EventEntity { Id = model.Id }, model);
-
-    public Expression<Func<EventEntity, object>> ToEntityPropertyExpression(string propertyName)
-        => propertyName switch
-        {
-            nameof(Event.Name) => i => i.Name,
-            nameof(Event.StartDate) => i => i.StartDate,
-            _ => throw new NotSupportedException(propertyName)
-        };
 
     public Event ToModel(EventEntity entity)
         => new ()
@@ -36,5 +31,14 @@ internal class EventMapper : IMapper<EventEntity, Event>
         entity.ParticipationData = JsonSerializer.Serialize(model.ParticipationData);
         entity.StartDate = model.StartDate;
         return entity;
+    }
+
+    private class EventPropertyMapper : PropertyMapperBase<EventEntity, Event>
+    {
+        protected override Dictionary<string, Expression<Func<EventEntity, object>>> PropertyMap { get; } = new ()
+        {
+            { nameof(Event.Name), i => i.Name },
+            { nameof(Event.StartDate), i => i.StartDate }
+        };
     }
 }
