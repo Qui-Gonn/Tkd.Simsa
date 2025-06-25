@@ -6,8 +6,5 @@ public sealed record QueryParameters<TItem>
 
     public FilterDescriptors<TItem> Filters { get; init; } = [];
 
-    public void AddFilter(FilterDescriptor<TItem> filterDescriptor)
-    {
-        this.Filters.Add(filterDescriptor);
-    }
+    public SortDescriptors<TItem> SortDescriptors { get; init; } = [];
 }

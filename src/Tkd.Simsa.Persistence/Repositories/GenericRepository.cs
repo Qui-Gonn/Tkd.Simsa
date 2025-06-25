@@ -59,6 +59,7 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
         var retrievedItems = (await this.Data
                                         .AsNoTracking()
                                         .ApplyFilters(queryParameters.Filters, this.Mapper.PropertyMapper)
+                                        .ApplySorting(queryParameters.SortDescriptors, this.Mapper.PropertyMapper)
                                         .ToListAsync(cancellationToken))
             .ConvertAll(this.Mapper.ToModel);
 

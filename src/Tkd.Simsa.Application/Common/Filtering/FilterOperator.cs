@@ -10,10 +10,3 @@ public enum FilterOperator
 
     Contains,
 }
-
-public enum LogicalOperator
-{
-    And,
-
-    Or
-}

@@ -14,4 +14,30 @@ internal static class QueryableExtensions
             ? queryable.Where(filterExpression)
             : queryable;
     }
+
+    public static IQueryable<TEntity> ApplySorting<TEntity, TModel>(
+        this IQueryable<TEntity> queryable,
+        SortDescriptors<TModel> sortDescriptors,
+        IPropertyMapper<TEntity, TModel> propertyMapper)
+    {
+        IOrderedQueryable<TEntity>? ordered = null;
+        foreach (var sortDescriptor in sortDescriptors)
+        {
+            var property = sortDescriptor.PropertyExpression.TranslateFromModelToEntity(propertyMapper);
+            if (ordered is null)
+            {
+                ordered = sortDescriptor.Direction == SortDirection.Ascending
+                    ? queryable.OrderBy(property)
+                    : queryable.OrderByDescending(property);
+            }
+            else
+            {
+                ordered = sortDescriptor.Direction == SortDirection.Ascending
+                    ? ordered.ThenBy(property)
+                    : ordered.ThenByDescending(property);
+            }
+        }
+
+        return ordered ?? queryable;
+    }
 }

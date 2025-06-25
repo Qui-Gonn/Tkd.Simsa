@@ -2,9 +2,9 @@
 
 using System.Linq.Expressions;
 
-public class CompositeFilterDescriptorDescriptor<TModel> : FilterDescriptor<TModel>
+public class CompositeFilterDescriptor<TModel> : FilterDescriptor<TModel>
 {
-    public CompositeFilterDescriptorDescriptor(FilterDescriptor<TModel> left, FilterDescriptor<TModel> right, LogicalOperator logicalOperator)
+    public CompositeFilterDescriptor(FilterDescriptor<TModel> left, FilterDescriptor<TModel> right, LogicalOperator logicalOperator)
     {
         this.Left = left;
         this.Right = right;

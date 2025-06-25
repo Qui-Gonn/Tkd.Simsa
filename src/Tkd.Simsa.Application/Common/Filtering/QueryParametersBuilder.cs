@@ -12,10 +12,13 @@ public static class QueryParameters
     {
         private FilterDescriptors<T> filters = [];
 
+        private SortDescriptors<T> sortDescriptors = [];
+
         public QueryParameters<T> Build()
             => new ()
             {
                 Filters = this.filters,
+                SortDescriptors = this.sortDescriptors,
             };
 
         public IQueryParametersBuilder<T> WithFilter(FilterDescriptors<T> filterDescriptors)
@@ -29,6 +32,18 @@ public static class QueryParameters
             this.filters = [filterDescriptor];
             return this;
         }
+
+        public IQueryParametersBuilder<T> WithSort(SortDescriptors<T> sortDescriptors)
+        {
+            this.sortDescriptors = sortDescriptors;
+            return this;
+        }
+
+        public IQueryParametersBuilder<T> WithSort(SortDescriptor<T> sortDescriptor)
+        {
+            this.sortDescriptors = [sortDescriptor];
+            return this;
+        }
     }
 }
 
@@ -39,4 +54,8 @@ public interface IQueryParametersBuilder<T>
     IQueryParametersBuilder<T> WithFilter(FilterDescriptors<T> filterDescriptors);
 
     IQueryParametersBuilder<T> WithFilter(FilterDescriptor<T> filterDescriptor);
+
+    IQueryParametersBuilder<T> WithSort(SortDescriptors<T> sortDescriptors);
+
+    IQueryParametersBuilder<T> WithSort(SortDescriptor<T> sortDescriptor);
 }
