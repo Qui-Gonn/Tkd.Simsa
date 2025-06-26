@@ -56,13 +56,13 @@ internal abstract class GenericRepository<TEntity, TModel> : IGenericRepository<
 
     public async ValueTask<IEnumerable<TModel>> GetItemsAsync(QueryParameters<TModel> queryParameters, CancellationToken cancellationToken = default)
     {
-        var retrievedItems = (await this.Data
-                                        .AsNoTracking()
-                                        .ApplyFilters(queryParameters.Filters, this.Mapper.PropertyMapper)
-                                        .ApplySorting(queryParameters.SortDescriptors, this.Mapper.PropertyMapper)
-                                        .ToListAsync(cancellationToken))
-            .ConvertAll(this.Mapper.ToModel);
+        var query = this.Data
+                        .AsNoTracking()
+                        .ApplyFilters(queryParameters.Filters, this.Mapper.PropertyMapper)
+                        .ApplySorting(queryParameters.Sorts, this.Mapper.PropertyMapper)
+                        .ApplyPaging(queryParameters.Paging);
 
+        var retrievedItems = (await query.ToListAsync(cancellationToken)).ConvertAll(this.Mapper.ToModel);
         return retrievedItems;
     }
 

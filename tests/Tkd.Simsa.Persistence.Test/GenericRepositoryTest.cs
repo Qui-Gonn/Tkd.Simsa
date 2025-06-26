@@ -62,8 +62,7 @@ public class GenericRepositoryTest
         var repository = this.CreateRepository();
 
         var queryParameters = QueryParameters.Create<TestModel>()
-                                             .WithFilter(
-                                                 Filter.For<TestModel>().Property(i => i.Value).Contains(filterValue))
+                                             .WithFilter(Filter.For<TestModel>().Property(i => i.Value).Contains(filterValue))
                                              .Build();
         var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
 
@@ -81,8 +80,7 @@ public class GenericRepositoryTest
         var repository = this.CreateRepository();
 
         var queryParameters = QueryParameters.Create<TestModel>()
-                                             .WithFilter(
-                                                 Filter.For<TestModel>().Property(i => i.Value).EqualTo(filterValue))
+                                             .WithFilter(Filter.For<TestModel>().Property(i => i.Value).EqualTo(filterValue))
                                              .Build();
         var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
 
@@ -140,8 +138,7 @@ public class GenericRepositoryTest
         var repository = this.CreateRepository();
 
         var queryParameters = QueryParameters.Create<TestModel>()
-                                             .WithFilter(
-                                                 Filter.For<TestModel>().Property(i => i.Value).StartsWith(filterValue))
+                                             .WithFilter(Filter.For<TestModel>().Property(i => i.Value).StartsWith(filterValue))
                                              .Build();
         var retrievedItems = (await repository.GetItemsAsync(queryParameters)).ToList();
 

@@ -4,6 +4,8 @@ using System.Linq.Expressions;
 
 public class FilterDescriptors<TModel> : List<FilterDescriptor<TModel>>
 {
+    public static readonly FilterDescriptors<TModel> Empty = [];
+
     public Expression<Func<TEntity, bool>> ToExpression<TEntity>(
         IPropertyMapper<TEntity, TModel> propertyMapper,
         IComparisonFunctions comparisonFunctions)
