@@ -45,6 +45,12 @@ public static class QueryParameters
             return this;
         }
 
+        public IQueryParametersBuilder<T> WithSort(ISortBuilder<T> sortBuilder)
+        {
+            this.sortDescriptors = sortBuilder.ToSortDescriptors();
+            return this;
+        }
+
         public IQueryParametersBuilder<T> WithSort(SortDescriptors<T> sortDescriptors)
         {
             this.sortDescriptors = sortDescriptors;
@@ -70,6 +76,8 @@ public interface IQueryParametersBuilder<T>
     IQueryParametersBuilder<T> WithPaging(int pageNumber, int pageSize);
 
     IQueryParametersBuilder<T> WithPaging(PagingParameters paging);
+
+    IQueryParametersBuilder<T> WithSort(ISortBuilder<T> sortBuilder);
 
     IQueryParametersBuilder<T> WithSort(SortDescriptors<T> sortDescriptors);
 

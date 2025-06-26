@@ -30,6 +30,7 @@ public partial class ParticipantsFormComponent : ComponentBase
         var filterLastname = Filter.For<Person>().Property(i => i.Name.LastName).Contains(searchValue);
         var queryParameters = QueryParameters.Create<Person>()
                                              .WithFilter(Filter.Or(filterFirstname, filterLastname))
+                                             .WithSort(Sort.By<Person>(i => i.Name.LastName).ThenBy(i => i.Name.FirstName))
                                              .Build();
         return await this.Mediator.Send(new GetItemsQuery<Person>(queryParameters), cancellationToken);
     }

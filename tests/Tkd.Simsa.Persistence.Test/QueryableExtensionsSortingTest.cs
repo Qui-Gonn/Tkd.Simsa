@@ -18,18 +18,16 @@ public class QueryableExtensionsSortingTest
         var queryable = data.AsQueryable();
 
         // Sort ascending by Value
-        var sortAsc = new SortDescriptor<TestModel>(x => x.Value);
-        var sortDesc = new SortDescriptor<TestModel>(x => x.Value, SortDirection.Descending);
-        var sorters = new SortDescriptors<TestModel> { sortAsc };
+        var sortAsc = Sort.By<TestModel>(x => x.Value);
+        var sortDesc = Sort.By<TestModel>(x => x.Value, SortDirection.Descending);
         var mapper = MapperHelper.TestPropertyMapper;
 
-        var sorted = queryable.ApplySorting(sorters, mapper).ToList();
+        var sorted = queryable.ApplySorting(sortAsc.ToSortDescriptors(), mapper).ToList();
         var expectedAsc = data.OrderBy(x => x.Value).Select(x => x.Value).ToList();
         Assert.Equal(expectedAsc, sorted.Select(x => x.Value).ToList());
 
         // Now test descending by Value
-        sorters = new SortDescriptors<TestModel> { sortDesc };
-        sorted = queryable.ApplySorting(sorters, mapper).ToList();
+        sorted = queryable.ApplySorting(sortDesc.ToSortDescriptors(), mapper).ToList();
         var expectedDesc = data.OrderByDescending(x => x.Value).Select(x => x.Value).ToList();
         Assert.Equal(expectedDesc, sorted.Select(x => x.Value).ToList());
     }
