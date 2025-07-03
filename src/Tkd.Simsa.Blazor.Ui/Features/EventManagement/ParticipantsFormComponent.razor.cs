@@ -28,6 +28,9 @@ public partial class ParticipantsFormComponent : ComponentBase
     public required EventCallback<List<Participant>> ParticipantsChanged { get; set; }
 
     [Inject]
+    private IDialogService DialogService { get; set; } = null!;
+
+    [Inject]
     private IMediator Mediator { get; set; } = null!;
 
     private Person? SelectedPerson { get; set; }
@@ -76,9 +79,19 @@ public partial class ParticipantsFormComponent : ComponentBase
 
     private async Task RemoveParticipant(Participant participant)
     {
-        this.Participants.Remove(participant);
-        await this.ParticipantsChanged.InvokeAsync(this.Participants);
-        await this.MudForm.Validate();
+        var confirmed = await this.DialogService.ShowMessageBox(
+            $"Remove {participant.PersonInfo.Name} from event",
+            new MarkupString(
+                $"""Are you sure you want to remove <strong class="mud-secondary-text">{participant.PersonInfo.Name}</strong> from this event?"""),
+            "Yes",
+            "No");
+
+        if (confirmed ?? false)
+        {
+            this.Participants.Remove(participant);
+            await this.ParticipantsChanged.InvokeAsync(this.Participants);
+            await this.MudForm.Validate();
+        }
     }
 
     private void SelectedPersonChanged(Person? person)
