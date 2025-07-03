@@ -12,11 +12,11 @@
                       Value="@context.Source.Id"
                       Variant="ThemeProvider.Variant" />
         <MudTextField Label="Name"
-                      Required
+                      Required="true"
                       @bind-Value="@context.Name"
                       Variant="ThemeProvider.Variant" />
         <MudDatePicker Label="Start Date"
-                       Required
+                       Required="true"
                        @bind-Date="@context.StartDate"
                        Variant="ThemeProvider.Variant" />
         <MudTextField AutoGrow="true"
@@ -26,7 +26,7 @@
                       @bind-Value="@context.Description"
                       Variant="ThemeProvider.Variant" />
 
-        <ParticipantsFormComponent Participants="@context.Source.ParticipationData.Participants" />
+        <ParticipantsFormComponent @bind-Participants="@context.Participants" />
     </FormContent>
 </DefaultEditComponent>
 
@@ -36,6 +36,6 @@
     public Guid? ItemId { get; set; }
 
     [CascadingParameter]
-    public ThemeProvider ThemeProvider { get; set; } = default!;
+    public ThemeProvider ThemeProvider { get; set; } = null!;
 
 }

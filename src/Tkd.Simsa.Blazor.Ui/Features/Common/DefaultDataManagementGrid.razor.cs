@@ -25,15 +25,15 @@ public partial class DefaultDataManagementGrid<TItem>
     public required ItemType ItemType { get; set; }
 
     [Inject]
-    private IDialogService DialogService { get; set; } = default!;
+    private IDialogService DialogService { get; set; } = null!;
 
     private IEnumerable<TItem> Items { get; set; } = [];
 
     [Inject]
-    private IMediator Mediator { get; set; } = default!;
+    private IMediator Mediator { get; set; } = null!;
 
     [Inject]
-    private NavigationManager NavigationManager { get; set; } = default!;
+    private NavigationManager NavigationManager { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {

@@ -24,7 +24,7 @@ public partial class DefaultDetailsForm<TEditItem>
     private bool IsValid { get; set; }
 
     [Inject]
-    private IJSRuntime JsRuntime { get; set; } = default!;
+    private IJSRuntime JsRuntime { get; set; } = null!;
 
     private async Task CancelAsync()
     {

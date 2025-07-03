@@ -9,6 +9,8 @@ public class EventEditItem : IEditItem<Event, EventEditItem>
 
     public required string Name { get; set; }
 
+    public required List<Participant> Participants { get; set; } = [];
+
     public required Event Source { get; init; }
 
     public required DateTime? StartDate { get; set; }
@@ -18,24 +20,20 @@ public class EventEditItem : IEditItem<Event, EventEditItem>
         {
             Description = source.Description,
             Name = source.Name,
+            Participants = source.ParticipationData.Participants.ToList(),
             StartDate = source.StartDate.ToDateTime(TimeOnly.MinValue),
             Source = source
         };
 
     public static EventEditItem New()
-        => new ()
-        {
-            Description = string.Empty,
-            Name = string.Empty,
-            Source = Event.Empty,
-            StartDate = null
-        };
+        => FromModel(new Event());
 
     public Event ToModel()
         => this.Source with
         {
             Description = this.Description,
             Name = this.Name,
+            ParticipationData = new ParticipationData(this.Participants),
             StartDate = DateOnly.FromDateTime(this.StartDate ?? default)
         };
 }

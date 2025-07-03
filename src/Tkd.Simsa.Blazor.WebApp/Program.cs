@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+       .AddInteractiveServerComponents()
+       .AddInteractiveWebAssemblyComponents();
 
 builder.AddSimsaWebAppServices();
 builder.Services.AddSimsaUiServices();
@@ -32,9 +32,9 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Tkd.Simsa.Blazor.Ui._Imports).Assembly);
+   .AddInteractiveServerRenderMode()
+   .AddInteractiveWebAssemblyRenderMode()
+   .AddAdditionalAssemblies(typeof(Tkd.Simsa.Blazor.Ui._Imports).Assembly);
 
 app.MapSimsaApiEndpoints();
 

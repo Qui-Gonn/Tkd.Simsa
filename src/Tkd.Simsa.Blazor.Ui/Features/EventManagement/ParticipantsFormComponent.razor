@@ -7,16 +7,27 @@
              Hover="true"
              Items="@Participants">
     <ToolBarContent>
-        <MudAutocomplete T="Person"
-                         Label="Find Person"
-                         ProgressIndicatorColor="Color.Default"
-                         SearchFunc="FindPerson"
-                         ShowProgressIndicator="true"
-                         Variant="Variant.Text" />
-        @* <MudButton OnClick="Add" *@
-        @*            StartIcon="@Icons.Material.Filled.Add"> *@
-        @*     New *@
-        @* </MudButton> *@
+        <MudForm>
+            <MudAutocomplete @ref="SelectPersonAutocompleteRef"
+                             T="Person"
+                             Clearable="true"
+                             Label="Add participant"
+                             MinCharacters="2"
+                             SearchFunc="FindPerson"
+                             SelectValueOnTab="true"
+                             ShowProgressIndicator="true"
+                             ToStringFunc="p => p?.Name.ToString()"
+                             Value="SelectedPerson"
+                             ValueChanged="SelectedPersonChanged"
+                             Variant="Variant.Text"
+                             Style="width: 15rem;" />
+        </MudForm>
+        <MudButton Disabled="SelectedPerson is null"
+                   OnClick="AddParticipant"
+                   StartIcon="@Icons.Material.Filled.PersonAddAlt1"
+                   Size="Size.Small">
+            Add
+        </MudButton>
     </ToolBarContent>
     <Columns>
         <PropertyColumn T="Participant"
@@ -35,5 +46,12 @@
         <PropertyColumn T="Participant"
                         TProperty="Gender"
                         Property="item => item.PersonInfo.Gender" />
+        <TemplateColumn Title="Actions" HeaderStyle="width: 8rem">
+            <CellTemplate>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               OnClick="() => RemoveParticipant(context.Item)"
+                               Size="@Size.Small" />
+            </CellTemplate>
+        </TemplateColumn>
     </Columns>
 </MudDataGrid>

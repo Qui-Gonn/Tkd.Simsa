@@ -2,6 +2,8 @@
 
 using System.Linq.Expressions;
 
+using Tkd.Simsa.Application.Extensions;
+
 public static class Filter
 {
     public static CompositeFilterDescriptor<T> And<T>(FilterDescriptor<T> left, FilterDescriptor<T> right)
@@ -21,10 +23,10 @@ public static class Filter
             => new (left, right, LogicalOperator.And);
 
         public SimpleFilterDescriptorDescriptor<T> Contains(object value)
-            => new (this.propertyExpression, value, FilterOperator.Contains);
+            => new (this.propertyExpression.GetPropertyPath(), value, FilterOperator.Contains);
 
         public SimpleFilterDescriptorDescriptor<T> EqualTo(object value)
-            => new (this.propertyExpression, value, FilterOperator.Equals);
+            => new (this.propertyExpression.GetPropertyPath(), value, FilterOperator.Equals);
 
         public CompositeFilterDescriptor<T> Or(FilterDescriptor<T> left, FilterDescriptor<T> right)
             => new (left, right, LogicalOperator.Or);
@@ -36,7 +38,7 @@ public static class Filter
         }
 
         public SimpleFilterDescriptorDescriptor<T> StartsWith(object value)
-            => new (this.propertyExpression, value, FilterOperator.StartsWith);
+            => new (this.propertyExpression.GetPropertyPath(), value, FilterOperator.StartsWith);
     }
 }
 

@@ -2,29 +2,19 @@
 
 using System.Linq.Expressions;
 
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Application.Extensions;
 
-public class SimpleFilterDescriptorDescriptor<TModel> : FilterDescriptor<TModel>
+public record SimpleFilterDescriptorDescriptor<TModel>(string PropertyName, object? Value, FilterOperator FilterOperator)
+    : FilterDescriptor<TModel>
 {
-    public SimpleFilterDescriptorDescriptor(Expression<Func<TModel, object>> propertyExpression, object? value, FilterOperator filterOperator)
-    {
-        this.PropertyExpression = propertyExpression;
-        this.Value = value;
-        this.Operator = filterOperator;
-    }
-
-    public FilterOperator Operator { get; }
-
-    public Expression<Func<TModel, object>> PropertyExpression { get; }
-
-    public object? Value { get; }
-
     public override Expression<Func<TEntity, bool>> ToExpression<TEntity>(
         IPropertyMapper<TEntity, TModel> propertyMapper,
         IComparisonFunctions comparisonFunctions)
     {
-        var entityPropertyExpression = this.PropertyExpression.TranslateFromModelToEntity(propertyMapper);
-        var filterExpression = comparisonFunctions.GetComparisonExpression(this.Operator, entityPropertyExpression.GetMemberExpression(), this.Value);
+        var propertyExpression = PropertyExpressionBuilder.BuildPropertyExpression<TModel>(this.PropertyName);
+        var entityPropertyExpression = propertyExpression.TranslateFromModelToEntity(propertyMapper);
+        var filterExpression = comparisonFunctions.GetComparisonExpression(this.FilterOperator, entityPropertyExpression.GetMemberExpression(), this.Value);
 
         var lambdaFilterExpression = Expression.Lambda<Func<TEntity, bool>>(filterExpression, entityPropertyExpression.Parameters);
         return lambdaFilterExpression;

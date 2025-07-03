@@ -2,6 +2,8 @@ namespace Tkd.Simsa.Application.Common.Filtering;
 
 using System.Linq.Expressions;
 
+using Tkd.Simsa.Application.Extensions;
+
 public static class Sort
 {
     public static ISortBuilder<T> By<T>(Expression<Func<T, object>> propertyExpression, SortDirection direction = SortDirection.Ascending)
@@ -13,7 +15,8 @@ public static class Sort
 
         public SortBuilder<T> AddNewSortDescriptor(Expression<Func<T, object>> propertyExpression, SortDirection direction)
         {
-            this.sorts.Add(new SortDescriptor<T>(propertyExpression, direction));
+            var propertyName = propertyExpression.GetPropertyPath();
+            this.sorts.Add(new SortDescriptor<T>(propertyName, direction));
             return this;
         }
 

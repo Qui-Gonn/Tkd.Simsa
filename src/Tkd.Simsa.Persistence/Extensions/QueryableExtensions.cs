@@ -39,7 +39,8 @@ internal static class QueryableExtensions
         IOrderedQueryable<TEntity>? ordered = null;
         foreach (var sortDescriptor in sortDescriptors)
         {
-            var property = sortDescriptor.PropertyExpression.TranslateFromModelToEntity(propertyMapper);
+            var propertyExpression = PropertyExpressionBuilder.BuildPropertyExpression<TModel>(sortDescriptor.PropertyName);
+            var property = propertyExpression.TranslateFromModelToEntity(propertyMapper);
             if (ordered is null)
             {
                 ordered = sortDescriptor.Direction == SortDirection.Ascending

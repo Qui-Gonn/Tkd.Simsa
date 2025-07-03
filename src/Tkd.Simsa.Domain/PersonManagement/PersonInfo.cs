@@ -2,9 +2,9 @@
 
 public record PersonInfo
 {
-    public required BirthDate DateOfBirth { get; init; }
+    public BirthDate DateOfBirth { get; init; } = BirthDate.Empty;
 
-    public required Gender Gender { get; init; }
+    public Gender Gender { get; init; } = Gender.Unknown;
 
-    public required PersonName Name { get; init; }
+    public PersonName Name { get; init; } = PersonName.Empty;
 }

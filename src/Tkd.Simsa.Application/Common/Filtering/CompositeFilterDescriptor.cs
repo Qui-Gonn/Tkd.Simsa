@@ -2,21 +2,9 @@
 
 using System.Linq.Expressions;
 
-public class CompositeFilterDescriptor<TModel> : FilterDescriptor<TModel>
+public record CompositeFilterDescriptor<TModel>(FilterDescriptor<TModel> Left, FilterDescriptor<TModel> Right, LogicalOperator LogicalOperator)
+    : FilterDescriptor<TModel>
 {
-    public CompositeFilterDescriptor(FilterDescriptor<TModel> left, FilterDescriptor<TModel> right, LogicalOperator logicalOperator)
-    {
-        this.Left = left;
-        this.Right = right;
-        this.LogicalOperator = logicalOperator;
-    }
-
-    public FilterDescriptor<TModel> Left { get; }
-
-    public LogicalOperator LogicalOperator { get; }
-
-    public FilterDescriptor<TModel> Right { get; }
-
     public override Expression<Func<TEntity, bool>> ToExpression<TEntity>(
         IPropertyMapper<TEntity, TModel> propertyMapper,
         IComparisonFunctions comparisonFunctions)
