@@ -3,7 +3,6 @@
 using MediatR;
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 using MudBlazor;
 
@@ -69,14 +68,6 @@ public partial class ParticipantsFormComponent : ComponentBase
         return persons.ExceptBy(this.Participants.Select(p => p.PersonId), p => p.Id);
     }
 
-    private async Task OnKeyDownParticipant(KeyboardEventArgs args)
-    {
-        if (args.Key == "Enter")
-        {
-            await this.AddParticipant();
-        }
-    }
-
     private async Task RemoveParticipant(Participant participant)
     {
         var confirmed = await this.DialogService.ShowMessageBox(
@@ -94,9 +85,9 @@ public partial class ParticipantsFormComponent : ComponentBase
         }
     }
 
-    private void SelectedPersonChanged(Person? person)
+    private async Task SelectedPersonChanged(Person? person)
     {
         this.SelectedPerson = person;
-        this.SelectPersonAutocompleteRef.ResetValidation();
+        await this.AddParticipant();
     }
 }
