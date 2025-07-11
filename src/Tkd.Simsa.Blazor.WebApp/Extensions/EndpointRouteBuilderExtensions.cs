@@ -5,10 +5,7 @@ using Tkd.Simsa.Domain.Common;
 
 public static class EndpointRouteBuilderExtensions
 {
-    public static IEndpointRouteBuilder MapDefaultEndpoints<T>(this IEndpointRouteBuilder builder)
+    public static EndpointsInstaller<T> MapDefaultEndpoints<T>(this IEndpointRouteBuilder builder)
         where T : IHasId<Guid>
-    {
-        EndpointsInstaller<T>.MapDefaultGroup(builder, typeof(T).Name);
-        return builder;
-    }
+        => EndpointsInstaller<T>.MapDefaultGroup(builder, typeof(T).Name);
 }

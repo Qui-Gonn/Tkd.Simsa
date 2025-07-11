@@ -22,7 +22,8 @@ public class DataGenerator(IServiceProvider serviceProvider)
         where TModel : class
     {
         faker.AssertConfigurationIsValid();
-        var generatedItems = faker.Generate(Count);
+        var generatedItems = this.fakerCollection.GetItems(faker);
+        // var generatedItems = faker.Generate(Count);
 
         var repository = serviceProvider.GetRequiredService<IGenericRepository<TModel>>();
         repository.SetTransactionMode(TransactionMode.Manual);

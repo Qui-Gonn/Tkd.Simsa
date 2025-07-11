@@ -2,20 +2,15 @@
 
 using Tkd.Simsa.Domain.Common;
 
-public record Person : IModelWithId<Guid>
+public record Person : PersonInfo, IModelWithId<Guid>
 {
     public static readonly Person Empty = new ()
     {
+        Id = Guid.Empty,
         DateOfBirth = BirthDate.Empty,
         Gender = Gender.Unknown,
         Name = PersonName.Empty
     };
 
-    public required BirthDate DateOfBirth { get; init; }
-
-    public required Gender Gender { get; init; }
-
-    public Guid Id { get; init; } = Guid.NewGuid();
-
-    public required PersonName Name { get; init; }
+    public Guid Id { get; init; } = Guid.CreateVersion7();
 }

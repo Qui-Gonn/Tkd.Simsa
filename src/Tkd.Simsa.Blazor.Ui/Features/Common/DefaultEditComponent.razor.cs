@@ -22,7 +22,7 @@ public partial class DefaultEditComponent<TItem, TEditItem>
     public required ItemType ItemType { get; set; }
 
     [CascadingParameter]
-    public ThemeProvider ThemeProvider { get; set; } = default!;
+    public ThemeProvider ThemeProvider { get; set; } = null!;
 
     private TEditItem EditItem { get; set; } = TEditItem.New();
 
@@ -33,10 +33,10 @@ public partial class DefaultEditComponent<TItem, TEditItem>
     private bool IsNew { get; set; }
 
     [Inject]
-    private IMediator Mediator { get; set; } = default!;
+    private IMediator Mediator { get; set; } = null!;
 
     [Inject]
-    private NavigationManager NavigationManager { get; set; } = default!;
+    private NavigationManager NavigationManager { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {

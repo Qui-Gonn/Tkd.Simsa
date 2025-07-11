@@ -26,14 +26,7 @@ public class PersonEditItem : IEditItem<Person, PersonEditItem>
         };
 
     public static PersonEditItem New()
-        => new ()
-        {
-            DateOfBirth = null,
-            FirstName = string.Empty,
-            Gender = null,
-            LastName = string.Empty,
-            Source = Person.Empty
-        };
+        => FromModel(new Person());
 
     public Person ToModel()
         => this.Source with

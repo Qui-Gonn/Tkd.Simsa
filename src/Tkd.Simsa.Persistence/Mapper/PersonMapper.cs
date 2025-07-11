@@ -1,10 +1,15 @@
 ﻿namespace Tkd.Simsa.Persistence.Mapper;
 
+using System.Linq.Expressions;
+
+using Tkd.Simsa.Application.Common.Filtering;
 using Tkd.Simsa.Domain.PersonManagement;
 using Tkd.Simsa.Persistence.Entities;
 
 internal class PersonMapper : IMapper<PersonEntity, Person>
 {
+    public IPropertyMapper<PersonEntity, Person> PropertyMapper { get; } = new PersonPropertyMapper();
+
     public PersonEntity ToEntity(Person model)
         => this.UpdateEntity(new PersonEntity { Id = model.Id }, model);
 
@@ -24,5 +29,14 @@ internal class PersonMapper : IMapper<PersonEntity, Person>
         entity.LastName = model.Name.LastName;
         entity.Gender = model.Gender;
         return entity;
+    }
+
+    private class PersonPropertyMapper : PropertyMapperBase<PersonEntity, Person>
+    {
+        protected override Dictionary<string, Expression<Func<PersonEntity, object>>> PropertyMap { get; } = new ()
+        {
+            { nameof(Person.Name.FirstName), i => i.FirstName },
+            { nameof(Person.Name.LastName), i => i.LastName }
+        };
     }
 }

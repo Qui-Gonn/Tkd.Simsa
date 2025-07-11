@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-public class SimsaDbContext : DbContext
+internal class SimsaDbContext : DbContext
 {
     public SimsaDbContext(DbContextOptions options)
         : base(options)

@@ -1,5 +1,4 @@
 ﻿@using Tkd.Simsa.Domain.EventManagement
-@using Tkd.Simsa.Domain.PersonManagement
 @attribute [Route($"{RouteConstants.EventManagement}/add")]
 @attribute [Route($"{RouteConstants.EventManagement}/edit/{{ItemId:guid}}")]
 
@@ -13,11 +12,11 @@
                       Value="@context.Source.Id"
                       Variant="ThemeProvider.Variant" />
         <MudTextField Label="Name"
-                      Required
+                      Required="true"
                       @bind-Value="@context.Name"
                       Variant="ThemeProvider.Variant" />
         <MudDatePicker Label="Start Date"
-                       Required
+                       Required="true"
                        @bind-Date="@context.StartDate"
                        Variant="ThemeProvider.Variant" />
         <MudTextField AutoGrow="true"
@@ -27,38 +26,7 @@
                       @bind-Value="@context.Description"
                       Variant="ThemeProvider.Variant" />
 
-        @* <MudText Typo="Typo.h5" GutterBottom="true">Manage @ItemType.Name.Plural</MudText> *@
-        <MudDataGrid T="Participant"
-                     FixedHeader="true"
-                     Height="100%"
-                     Hover="true"
-                     Items="@context.Source.ParticipationData.Participants">
-            <ToolBarContent>
-                @* <MudButton OnClick="Add" *@
-                @*            StartIcon="@Icons.Material.Filled.Add"> *@
-                @*     New *@
-                @* </MudButton> *@
-            </ToolBarContent>
-            <Columns>
-                <PropertyColumn T="Participant"
-                                TProperty="string"
-                                Property="item => item.PersonSnapshot.Name.FirstName"
-                                Title="First Name" />
-                <PropertyColumn T="Participant"
-                                TProperty="string"
-                                Property="item => item.PersonSnapshot.Name.LastName"
-                                Title="Last Name" />
-                <PropertyColumn T="Participant"
-                                TProperty="DateOnly"
-                                Format="D"
-                                Property="item => item.PersonSnapshot.DateOfBirth.Date"
-                                Title="Date of Birth" />
-                <PropertyColumn T="Participant"
-                                TProperty="Gender"
-                                Property="item => item.PersonSnapshot.Gender" />
-            </Columns>
-        </MudDataGrid>
-
+        <ParticipantsFormComponent @bind-Participants="@context.Participants" />
     </FormContent>
 </DefaultEditComponent>
 
@@ -68,6 +36,6 @@
     public Guid? ItemId { get; set; }
 
     [CascadingParameter]
-    public ThemeProvider ThemeProvider { get; set; } = default!;
+    public ThemeProvider ThemeProvider { get; set; } = null!;
 
 }
